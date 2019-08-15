@@ -1,0 +1,9 @@
+#!/bin/bash
+
+DOMAIN="https://samsara.youearnedit.com"
+
+session=$1
+
+curl "$DOMAIN/api/v3/users/?page=1&per_page=2400&name_search=&sort_by=first_name&sort_dir=asc&exclude_follows=true&expand%5B%5D=shipping_address" \
+    --cookie "_session_id=$session" \
+        | jq -r ".users | map({(.name): .id}) | add" > users.json
