@@ -1,0 +1,7 @@
+#!/bin/bash
+
+go run dump.go \
+    | jq "map(.Members \
+        | if type==\"array\" then map({(.GithubUsername): .Name}) else null end) \
+        | add \
+        | add" > github.json

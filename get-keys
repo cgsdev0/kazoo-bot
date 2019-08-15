@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "$0 [json file]"
+    exit 1
+fi
+
+while IFS= read line; do
+    jq ".[\"$line\"]" "$1" --raw-output
+done

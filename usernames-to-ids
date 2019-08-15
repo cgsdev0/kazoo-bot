@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# choose some github users interactively
+# output their kazoo IDs
+# a few users have mismatched names and don't work :(
+
+./get-keys-interactive github.json | jq ".[]" --raw-output | ./get-keys users.json | sed '/^null$/d' | jq -R . | jq -s . --compact-output

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# choose some people interactively
+# output their kazoo IDs
+
+./get-keys-interactive users.json

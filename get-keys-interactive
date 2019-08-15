@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "$0 [json file]"
+    exit 1
+fi
+
+jq -r "keys[]" "$1" | fzf -m --print0 | xargs -r -0 -I {} jq ".[\"{}\"]" "$1" | jq -s . --compact-output

@@ -2,6 +2,11 @@
 
 DOMAIN="https://samsara.youearnedit.com"
 
+if [ -z "$1" ]; then
+    echo "$0 [session]"
+    exit 1
+fi
+
 session=$1
 
 curl "$DOMAIN/api/v3/users/?page=1&per_page=2400&name_search=&sort_by=first_name&sort_dir=asc&exclude_follows=true&expand%5B%5D=shipping_address" \

@@ -10,8 +10,10 @@ don't worry about it
 4. Run `./scrape-users [session-id]`
 5. Run either `./find-users` or `./kazoo`
 
-## Example
+## Examples
 
 ```
-$ ./kazoo "thanks to all these great peoples" 2 `./find-users` $session
+$ ./kazoo "thanks to all these great peoples" 2 `./names-to-ids` $session
+
+$ ./kazoo "also shoutout to these github users" 2 `./usernames-to-ids` $session
 ```
