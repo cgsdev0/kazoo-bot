@@ -1,0 +1,26 @@
+#!/bin/bash
+
+DOMAIN="https://samsara.youearnedit.com"
+
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ] || [ -z "$4" ]; then
+    echo "$0 [message] [points] [to] [session]"
+    exit 1
+fi
+
+message="$1"
+points="$2"
+to="$3"
+session="$4"
+
+json="{\"company_tag_id\":\"\",\"message\":\"$message\",\"points\":\"$points\",\"privacy\":\"public\",\"to_ids\":[\"$to\"],\"skills\":[],\"expand\":[\"from\"]}"
+
+curl --cookie "_session_id=$session" $DOMAIN/posts 2> /dev/null \
+    | grep csrf-token \
+    | sed 's/^.*content="\(.*\)".*$/\1/' \
+    | xargs -I {} \
+        curl $DOMAIN/api/v3/posts/ \
+            --data "$json" \
+            --cookie "_session_id=$session" \
+            -H "X-CSRF-Token: {}" \
+            -H "Content-Type: application/json" \
+            -H "Origin: $DOMAIN" \

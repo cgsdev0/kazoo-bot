@@ -1,0 +1,2 @@
+#!/bin/bash
+jq -r "keys[]" "$1" | fzf | tr -d '\n' | xargs -0 -I {} jq ".[\"{}\"]" "$1" | tr -d '"'
