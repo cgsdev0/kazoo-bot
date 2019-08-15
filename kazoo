@@ -3,7 +3,7 @@
 DOMAIN="https://samsara.youearnedit.com"
 
 if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ] || [ -z "$4" ]; then
-    echo "$0 [message] [points] [to] [session]"
+    echo "$0 [message] [points] [to-ids] [session]"
     exit 1
 fi
 
@@ -12,7 +12,7 @@ points="$2"
 to="$3"
 session="$4"
 
-json="{\"company_tag_id\":\"\",\"message\":\"$message\",\"points\":\"$points\",\"privacy\":\"public\",\"to_ids\":[\"$to\"],\"skills\":[],\"expand\":[\"from\"]}"
+json="{\"company_tag_id\":\"\",\"message\":\"$message\",\"points\":\"$points\",\"privacy\":\"public\",\"to_ids\":$to,\"skills\":[],\"expand\":[\"from\"]}"
 
 curl --cookie "_session_id=$session" $DOMAIN/posts 2> /dev/null \
     | grep csrf-token \

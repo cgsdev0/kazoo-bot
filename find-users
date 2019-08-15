@@ -1,0 +1,2 @@
+#!/bin/bash
+jq -r "keys[]" users.json | fzf -m --print0 | xargs -r -0 -I {} jq ".[\"{}\"]" users.json | jq -s . --compact-output
