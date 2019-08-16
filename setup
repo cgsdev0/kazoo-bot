@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cd "${0%/*}"
+
+if [ -z "$1" ]; then
+    echo "$0 [session]"
+    exit 1
+fi
+
+session=$1
+
+./scrape-users $session
+./map-github-users
+touch approved-ids
+

@@ -7,7 +7,7 @@ don't worry about it
 1. Navigate to Kazoo
 2. Sign in
 3. Grab your `_session_id` cookie
-4. Run `./scrape-users [session-id]`
+4. Run `./setup [session-id]`
 5. Run either `./find-users` or `./kazoo`
 
 ## Examples

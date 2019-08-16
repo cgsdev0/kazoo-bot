@@ -1,0 +1,1 @@
+query { viewer { pullRequests(states: [OPEN, MERGED], last: 10) { nodes { repository { nameWithOwner } id title publishedAt reviews(first: 1, states: [APPROVED]) { nodes { publishedAt author { login } } } } } } }

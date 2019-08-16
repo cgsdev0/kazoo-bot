@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "$0 [query] [token]"
+    exit 1
+fi
+
+query="$1"
+token="$2"
+
+curl -H "Authorization: bearer $token" -X POST -d "{ \"query\": \"$query\" }" https://api.github.com/graphql
+

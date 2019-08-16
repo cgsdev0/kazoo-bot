@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "${0%/*}"
+
 # choose some people interactively
 # output their kazoo IDs
 

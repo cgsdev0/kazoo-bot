@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "${0%/*}"
+
+./poll-github "$(cat approvals.graphql)" $(jq .token github_api.json --raw-output) \
+    | jq ".data.viewer.pullRequests.nodes | map(select(.repository.nameWithOwner == \"samsara-dev/backend\") | select(.reviews.nodes | length) | [.id, .reviews.nodes[0].author.login, .title, .publishedAt, .reviews.nodes[0].publishedAt]) | map(@tsv) | .[]" --raw-output

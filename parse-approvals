@@ -1,0 +1,57 @@
+#!/bin/bash
+
+cd "${0%/*}"
+
+if [ -z "$1" ]; then
+    echo "$0 [session]"
+    exit 1
+fi
+
+session=$1
+# Check to see if a pipe exists on stdin.
+if [ -p /dev/stdin ]; then
+    while IFS= read line; do
+        id=$(echo "$line" | tr '\t' '\n' | sed -n '1 p')
+        author=$(echo "$line" | tr '\t' '\n' | sed -n '2 p')
+        title=$(echo "$line" | tr '\t' '\n' | sed -n '3 p')
+        pubDate=$(echo "$line" | tr '\t' '\n' | sed -n '4 p')
+        reviewDate=$(echo "$line" | tr '\t' '\n' | sed -n '5 p')
+        if grep -Fxq "$id" approved-ids
+        then
+            continue
+        fi
+        ttrh=$(dateutils.ddiff "$pubDate" "$reviewDate" -f "%H")
+        ttrm=$(dateutils.ddiff "$pubDate" "$reviewDate" -f "%M")
+        ttrs=$(dateutils.ddiff "$pubDate" "$reviewDate" -f "%S")
+        echo "$id" >> approved-ids
+        if (($ttrh < 3)); then
+            formatted="$ttrh hours"
+            if (($ttrh < 2 )); then
+                formatted="$ttrh hour"
+                if (($ttrh < 1)); then
+                    formatted="$ttrm minutes"
+                    if (($ttrm < 2)); then
+                        formatted="$ttrm minute"
+                        if (($ttrm < 1)); then
+                            formatted="$ttrs seconds"
+                        fi
+                    fi
+                fi
+            fi
+        else
+            continue
+        fi
+        message="Shout out for approving my PR so fast! it only took you $formatted"
+        kazooid=$(echo $author | ./get-keys github.json | ./get-keys users.json)
+        echo $kazooid
+
+        # We don't know who this is :'(
+        if [ "$kazooid" == "" ] || [ "$kazooid" == "null" ]; then
+            continue
+        fi
+
+        kazooto=$(echo $kazooid | jq -R "[.]")
+        ./kazoo "$message" 1 "$kazooto" $session
+        exit 1
+    done
+fi
