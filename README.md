@@ -1,6 +1,6 @@
 ## What is this?
 
-don't worry about it
+it's the demo
 
 ## How to use
 
