@@ -1,0 +1,1 @@
+query { viewer { pullRequests(states: [MERGED], last: 100) { nodes { id } } } }

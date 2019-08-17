@@ -24,18 +24,12 @@ if [ -p /dev/stdin ]; then
         ttrm=$(dateutils.ddiff "$pubDate" "$reviewDate" -f "%M")
         ttrs=$(dateutils.ddiff "$pubDate" "$reviewDate" -f "%S")
         echo "$id" >> approved-ids
-        if (($ttrh < 3)); then
-            formatted="$ttrh hours"
-            if (($ttrh < 2 )); then
-                formatted="$ttrh hour"
-                if (($ttrh < 1)); then
-                    formatted="$ttrm minutes"
-                    if (($ttrm < 2)); then
-                        formatted="$ttrm minute"
-                        if (($ttrm < 1)); then
-                            formatted="$ttrs seconds"
-                        fi
-                    fi
+        if (($ttrh < 1)); then
+            formatted="$ttrm minutes"
+            if (($ttrm < 2)); then
+                formatted="$ttrm minute"
+                if (($ttrm < 1)); then
+                    formatted="$ttrs seconds"
                 fi
             fi
         else
@@ -52,6 +46,5 @@ if [ -p /dev/stdin ]; then
 
         kazooto=$(echo $kazooid | jq -R "[.]")
         ./kazoo "$message" 1 "$kazooto" $session
-        exit 1
     done
 fi

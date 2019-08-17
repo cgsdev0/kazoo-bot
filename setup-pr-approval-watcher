@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "${0%/*}"
+
+./poll-github "$(cat listold.graphql)" $(jq .token github_api.json --raw-output) \
+    | jq ".data.viewer.pullRequests.nodes | map(.id) | .[]" --raw-output > approved-ids
