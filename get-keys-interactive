@@ -5,4 +5,9 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-jq -r "keys[]" "$1" | fzf -m --print0 | xargs -r -0 -I {} jq ".[\"{}\"]" "$1" | jq -s . --compact-output
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # Mac OSX xargs is shit apparently
+    jq -r "keys[]" "$1" | fzf -m --print0 | xargs -0 -I {} jq ".[\"{}\"]" "$1" | jq -s . --compact-output
+else
+    jq -r "keys[]" "$1" | fzf -m --print0 | xargs -r -0 -I {} jq ".[\"{}\"]" "$1" | jq -s . --compact-output
+fi
