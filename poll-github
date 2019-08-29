@@ -8,5 +8,5 @@ fi
 query="$1"
 token="$2"
 
-curl -H "Authorization: bearer $token" -X POST -d "{ \"query\": \"$query\" }" https://api.github.com/graphql
+curl -s -H "Authorization: bearer $token" -X POST -d "{ \"query\": \"$query\" }" https://api.github.com/graphql
 

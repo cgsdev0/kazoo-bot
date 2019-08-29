@@ -2,5 +2,5 @@
 
 session=$1
 
-./github-approvals | ./parse-approvals $session
+./github-approvals | ./parse-approvals $@
 

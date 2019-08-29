@@ -14,13 +14,17 @@ session="$4"
 
 json="{\"company_tag_id\":\"\",\"message\":\"$message\",\"points\":\"$points\",\"privacy\":\"public\",\"to_ids\":$to,\"skills\":[],\"expand\":[\"from\"]}"
 
-curl --cookie "_session_id=$session" $DOMAIN/posts 2> /dev/null \
+curl -s --cookie "_session_id=$session" $DOMAIN/posts \
     | grep csrf-token \
     | sed 's/^.*content="\(.*\)".*$/\1/' \
     | xargs -I {} \
-        curl $DOMAIN/api/v3/posts/ \
+        curl -s $DOMAIN/api/v3/posts/ \
             --data "$json" \
             --cookie "_session_id=$session" \
             -H "X-CSRF-Token: {}" \
             -H "Content-Type: application/json" \
             -H "Origin: $DOMAIN" \
+    | jq --raw-output \
+        "(select(.giving_balance != null) | \
+        \"Success! \(.giving_balance) points remaining.\"), \
+        (select(.errors != null) | {errors})"

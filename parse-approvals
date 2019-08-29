@@ -37,7 +37,7 @@ if [ -p /dev/stdin ]; then
         fi
         message="Shout out for approving my PR so fast! it only took you $formatted"
         kazooid=$(echo $author | ./get-keys github.json | ./get-keys users.json)
-        echo $kazooid
+        echo to: $author - $message
 
         # We don't know who this is :'(
         if [ "$kazooid" == "" ] || [ "$kazooid" == "null" ]; then
@@ -45,6 +45,10 @@ if [ -p /dev/stdin ]; then
         fi
 
         kazooto=$(echo $kazooid | jq -R "[.]")
-        ./kazoo "$message" 1 "$kazooto" $session
+        if [ "$2" == "--test" ]; then
+            echo ./kazoo "$message" 1 "$kazooto" $session
+        else
+            ./kazoo "$message" 1 "$kazooto" $session
+        fi
     done
 fi
