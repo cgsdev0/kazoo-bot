@@ -47,8 +47,13 @@ if [ -p /dev/stdin ]; then
         kazooto=$(echo $kazooid | jq -R "[.]")
         if [ "$2" == "--test" ]; then
             echo ./kazoo "$message" 1 "$kazooto" $session
+            sed -i '$d' approved-ids
         else
             ./kazoo "$message" 1 "$kazooto" $session
+            if [ $? -ne 0 ]; then
+                sed -i '$d' approved-ids
+                echo "Kazoo failed! You may need to refresh your session cookie."
+            fi
         fi
     done
 fi
