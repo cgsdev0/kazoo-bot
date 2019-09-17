@@ -28,6 +28,6 @@ curl -s --cookie "_session_id=$session" $DOMAIN/posts \
             -H "Content-Type: application/json" \
             -H "Origin: $DOMAIN" \
     | jq --raw-output \
-        "(select(.giving_balance != null) | \
-        \"Success! \(.giving_balance) points remaining.\"), \
+        "(select(.from != null) | \
+        \"Success! \(.from.giving_balance) points remaining.\"), \
         (select(.errors != null) | {errors})"
