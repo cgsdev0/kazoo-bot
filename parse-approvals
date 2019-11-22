@@ -35,7 +35,7 @@ if [ -p /dev/stdin ]; then
         else
             continue
         fi
-        message="Shout out for approving my PR '$title' so fast! it only took you $formatted $(./random-emoji)"
+        message="Shout out for approving my PR '$title' so fast! it only took you $formatted $(./random-emoji)$(./random-emoji)$(./random-emoji)"
         kazooid=$(echo $author | ./get-keys github.json | ./get-keys users.json)
         echo to: $author - $message
 
