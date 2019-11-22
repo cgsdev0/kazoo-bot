@@ -35,7 +35,7 @@ if [ -p /dev/stdin ]; then
         else
             continue
         fi
-        message="Shout out for approving my PR '$title' so fast! it only took you $formatted"
+        message="Shout out for approving my PR '$title' so fast! it only took you $formatted $(./random-emoji)"
         kazooid=$(echo $author | ./get-keys github.json | ./get-keys users.json)
         echo to: $author - $message
 
@@ -48,10 +48,10 @@ if [ -p /dev/stdin ]; then
         if [ "$2" == "--reset" ]; then
             echo "Resetting $title by $author in $formatted"
         elif [ "$2" == "--test" ]; then
-            echo ./kazoo "$message" 25 "$kazooto" $session
+            echo ./kazoo "$message" 5 "$kazooto" $session
             sed -i '$d' approved-ids
         else
-            ./kazoo "$message" 25 "$kazooto" $session
+            ./kazoo "$message" 5 "$kazooto" $session
             if [ $? -ne 0 ]; then
                 sed -i '$d' approved-ids
                 echo "Kazoo failed! You may need to refresh your session cookie."
